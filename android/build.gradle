@@ -2,17 +2,17 @@ group 'com.example.flutter_callkit_incoming'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.8.0'
+    ext.kotlin_version = '1.9.0'
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
         //classpath 'com.android.tools.build:gradle:4.1.0'
         //classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         
-        classpath 'com.android.tools.build:gradle:7.1.2'
+        classpath 'com.android.tools.build:gradle:8.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -20,7 +20,7 @@ buildscript {
 rootProject.allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
@@ -30,8 +30,11 @@ apply plugin: 'kotlin-android'
 android {
     compileSdk 34
 
-    if (project.android.hasProperty("namespace")) {
-        namespace "com.hiennv.flutter_callkit_incoming"
+    namespace "com.hiennv.flutter_callkit_incoming"
+    
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlin {
@@ -42,11 +45,12 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
     defaultConfig {
-        minSdk 16
+        minSdk 21
         targetSdk 34
 
         consumerProguardFiles 'consumer-rules.pro'
-    }
+    }   
+
 }
 
 dependencies {
