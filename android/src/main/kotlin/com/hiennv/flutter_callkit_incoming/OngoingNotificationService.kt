@@ -37,138 +37,138 @@ class OngoingNotificationService : Service() {
 
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        showOngoingCallNotification(intent?.extras!!)
+        // showOngoingCallNotification(intent?.extras!!)
         return START_STICKY
     }
 
     @SuppressLint("MissingPermission")
     private fun showOngoingCallNotification(data: Bundle) {
 
-        val onGoingNotificationId = data.getInt(
-            CallkitConstants.EXTRA_CALLKIT_MISSED_CALL_ID,
-            data.getString(CallkitConstants.EXTRA_CALLKIT_ID, "callkit_incoming").hashCode() + 999
-        )
+        // val onGoingNotificationId = data.getInt(
+        //     CallkitConstants.EXTRA_CALLKIT_MISSED_CALL_ID,
+        //     data.getString(CallkitConstants.EXTRA_CALLKIT_ID, "callkit_incoming").hashCode() + 999
+        // )
 
-        notificationBuilder = NotificationCompat.Builder(
-            this,
-            CallkitNotificationManager.NOTIFICATION_CHANNEL_ID_ONGOING
-        )
-        notificationBuilder.setChannelId(CallkitNotificationManager.NOTIFICATION_CHANNEL_ID_ONGOING)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                notificationBuilder.setCategory(Notification.CATEGORY_CALL)
-            }
-        }
-        val textCalling = data.getString(CallkitConstants.EXTRA_CALLKIT_CALLING_SUBTITLE, "")
-        notificationBuilder.setSubText(if (TextUtils.isEmpty(textCalling)) getString(R.string.text_calling) else textCalling)
-        notificationBuilder.setSmallIcon(R.drawable.ic_accept)
-        val isCustomNotification =
-            data.getBoolean(CallkitConstants.EXTRA_CALLKIT_IS_CUSTOM_NOTIFICATION, false)
-        if (isCustomNotification) {
-            notificationViews =
-                RemoteViews(packageName, R.layout.layout_custom_ongoing_notification)
-            notificationViews?.setTextViewText(
-                R.id.tvNameCaller,
-                data.getString(CallkitConstants.EXTRA_CALLKIT_NAME_CALLER, "")
-            )
-            val isShowCallID =
-                data?.getBoolean(CallkitConstants.EXTRA_CALLKIT_IS_SHOW_CALL_ID, false)
-            if (isShowCallID == true) {
-                notificationViews?.setTextViewText(
-                    R.id.tvNumber,
-                    String.format(
-                        " • %1s",
-                        data.getString(CallkitConstants.EXTRA_CALLKIT_HANDLE, "")
-                    )
-                )
-            }
-            notificationViews?.setOnClickPendingIntent(
-                R.id.llHangup,
-                getHangupPendingIntent(onGoingNotificationId, data)
-            )
-            val isShowHangup = data.getBoolean(
-                CallkitConstants.EXTRA_CALLKIT_CALLING_HANG_UP_SHOW,
-                true
-            )
-            notificationViews?.setViewVisibility(
-                R.id.llHangup,
-                if (isShowHangup) View.VISIBLE else View.GONE
-            )
-            val textHangup =
-                data.getString(CallkitConstants.EXTRA_CALLKIT_CALLING_HANG_UP_TEXT, "")
-            notificationViews?.setTextViewText(
-                R.id.tvHangUp,
-                if (TextUtils.isEmpty(textHangup)) getString(R.string.text_hang_up) else textHangup
-            )
-            val textTapOpen =
-                data.getString(CallkitConstants.EXTRA_CALLKIT_CALLING_TAP_OPEN_TEXT, "")
-            notificationViews?.setTextViewText(
-                R.id.tvTapOpen,
-                if (TextUtils.isEmpty(textTapOpen)) getString(R.string.text_tab_open) else textTapOpen
-            )
+        // notificationBuilder = NotificationCompat.Builder(
+        //     this,
+        //     CallkitNotificationManager.NOTIFICATION_CHANNEL_ID_ONGOING
+        // )
+        // notificationBuilder.setChannelId(CallkitNotificationManager.NOTIFICATION_CHANNEL_ID_ONGOING)
+        // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        //     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        //         notificationBuilder.setCategory(Notification.CATEGORY_CALL)
+        //     }
+        // }
+        // val textCalling = data.getString(CallkitConstants.EXTRA_CALLKIT_CALLING_SUBTITLE, "")
+        // notificationBuilder.setSubText(if (TextUtils.isEmpty(textCalling)) getString(R.string.text_calling) else textCalling)
+        // notificationBuilder.setSmallIcon(R.drawable.ic_accept)
+        // val isCustomNotification =
+        //     data.getBoolean(CallkitConstants.EXTRA_CALLKIT_IS_CUSTOM_NOTIFICATION, false)
+        // if (isCustomNotification) {
+        //     notificationViews =
+        //         RemoteViews(packageName, R.layout.layout_custom_ongoing_notification)
+        //     notificationViews?.setTextViewText(
+        //         R.id.tvNameCaller,
+        //         data.getString(CallkitConstants.EXTRA_CALLKIT_NAME_CALLER, "")
+        //     )
+        //     val isShowCallID =
+        //         data?.getBoolean(CallkitConstants.EXTRA_CALLKIT_IS_SHOW_CALL_ID, false)
+        //     if (isShowCallID == true) {
+        //         notificationViews?.setTextViewText(
+        //             R.id.tvNumber,
+        //             String.format(
+        //                 " • %1s",
+        //                 data.getString(CallkitConstants.EXTRA_CALLKIT_HANDLE, "")
+        //             )
+        //         )
+        //     }
+        //     notificationViews?.setOnClickPendingIntent(
+        //         R.id.llHangup,
+        //         getHangupPendingIntent(onGoingNotificationId, data)
+        //     )
+        //     val isShowHangup = data.getBoolean(
+        //         CallkitConstants.EXTRA_CALLKIT_CALLING_HANG_UP_SHOW,
+        //         true
+        //     )
+        //     notificationViews?.setViewVisibility(
+        //         R.id.llHangup,
+        //         if (isShowHangup) View.VISIBLE else View.GONE
+        //     )
+        //     val textHangup =
+        //         data.getString(CallkitConstants.EXTRA_CALLKIT_CALLING_HANG_UP_TEXT, "")
+        //     notificationViews?.setTextViewText(
+        //         R.id.tvHangUp,
+        //         if (TextUtils.isEmpty(textHangup)) getString(R.string.text_hang_up) else textHangup
+        //     )
+        //     val textTapOpen =
+        //         data.getString(CallkitConstants.EXTRA_CALLKIT_CALLING_TAP_OPEN_TEXT, "")
+        //     notificationViews?.setTextViewText(
+        //         R.id.tvTapOpen,
+        //         if (TextUtils.isEmpty(textTapOpen)) getString(R.string.text_tab_open) else textTapOpen
+        //     )
 
-            val avatarUrl = data.getString(CallkitConstants.EXTRA_CALLKIT_AVATAR, "")
-            if (avatarUrl != null && avatarUrl.isNotEmpty()) {
-                val headers =
-                    data.getSerializable(CallkitConstants.EXTRA_CALLKIT_HEADERS) as HashMap<String, Any?>
+        //     val avatarUrl = data.getString(CallkitConstants.EXTRA_CALLKIT_AVATAR, "")
+        //     if (avatarUrl != null && avatarUrl.isNotEmpty()) {
+        //         val headers =
+        //             data.getSerializable(CallkitConstants.EXTRA_CALLKIT_HEADERS) as HashMap<String, Any?>
 
-                getPicassoInstance(this@OngoingNotificationService, headers).load(avatarUrl)
-                    .transform(CircleTransform())
-                    .into(createAvatarTargetCustom(onGoingNotificationId))
-            }
-            notificationBuilder.setStyle(NotificationCompat.DecoratedCustomViewStyle())
-            notificationBuilder.setCustomContentView(notificationViews)
-            notificationBuilder.setCustomBigContentView(notificationViews)
-        } else {
-            notificationBuilder.setContentTitle(
-                data.getString(
-                    CallkitConstants.EXTRA_CALLKIT_NAME_CALLER,
-                    ""
-                )
-            )
-            notificationBuilder.setContentText(
-                data.getString(
-                    CallkitConstants.EXTRA_CALLKIT_HANDLE,
-                    ""
-                )
-            )
-            val avatarUrl = data.getString(CallkitConstants.EXTRA_CALLKIT_AVATAR, "")
-            if (avatarUrl != null && avatarUrl.isNotEmpty()) {
-                val headers =
-                    data.getSerializable(CallkitConstants.EXTRA_CALLKIT_HEADERS) as HashMap<String, Any?>
+        //         getPicassoInstance(this@OngoingNotificationService, headers).load(avatarUrl)
+        //             .transform(CircleTransform())
+        //             .into(createAvatarTargetCustom(onGoingNotificationId))
+        //     }
+        //     notificationBuilder.setStyle(NotificationCompat.DecoratedCustomViewStyle())
+        //     notificationBuilder.setCustomContentView(notificationViews)
+        //     notificationBuilder.setCustomBigContentView(notificationViews)
+        // } else {
+        //     notificationBuilder.setContentTitle(
+        //         data.getString(
+        //             CallkitConstants.EXTRA_CALLKIT_NAME_CALLER,
+        //             ""
+        //         )
+        //     )
+        //     notificationBuilder.setContentText(
+        //         data.getString(
+        //             CallkitConstants.EXTRA_CALLKIT_HANDLE,
+        //             ""
+        //         )
+        //     )
+        //     val avatarUrl = data.getString(CallkitConstants.EXTRA_CALLKIT_AVATAR, "")
+        //     if (avatarUrl != null && avatarUrl.isNotEmpty()) {
+        //         val headers =
+        //             data.getSerializable(CallkitConstants.EXTRA_CALLKIT_HEADERS) as HashMap<String, Any?>
 
-                getPicassoInstance(this@OngoingNotificationService, headers).load(avatarUrl)
-                    .into(createAvatarTargetDefault(onGoingNotificationId))
-            }
-            val isShowHangup = data.getBoolean(
-                CallkitConstants.EXTRA_CALLKIT_CALLING_HANG_UP_SHOW,
-                true
-            )
-            if (isShowHangup) {
-                val textHangup =
-                    data.getString(CallkitConstants.EXTRA_CALLKIT_CALLING_HANG_UP_TEXT, "")
-                val hangUpAction: NotificationCompat.Action = NotificationCompat.Action.Builder(
-                    R.drawable.transparent,
-                    if (TextUtils.isEmpty(textHangup)) this.getString(R.string.text_hang_up) else textHangup,
-                    getHangupPendingIntent(onGoingNotificationId, data)
-                ).build()
-                notificationBuilder.addAction(hangUpAction)
-            }
-        }
-        notificationBuilder.priority = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            NotificationManager.IMPORTANCE_LOW
-        } else {
-            Notification.PRIORITY_LOW
-        }
-        notificationBuilder.setSound(null)
-        notificationBuilder.setContentIntent(getAppPendingIntent(onGoingNotificationId, data))
-        val actionColor = data.getString(CallkitConstants.EXTRA_CALLKIT_ACTION_COLOR, "#4CAF50")
-        try {
-            notificationBuilder.color = Color.parseColor(actionColor)
-        } catch (_: Exception) {
-        }
-        notificationBuilder.setOngoing(true)
-        val notification = notificationBuilder.build()
+        //         getPicassoInstance(this@OngoingNotificationService, headers).load(avatarUrl)
+        //             .into(createAvatarTargetDefault(onGoingNotificationId))
+        //     }
+        //     val isShowHangup = data.getBoolean(
+        //         CallkitConstants.EXTRA_CALLKIT_CALLING_HANG_UP_SHOW,
+        //         true
+        //     )
+        //     if (isShowHangup) {
+        //         val textHangup =
+        //             data.getString(CallkitConstants.EXTRA_CALLKIT_CALLING_HANG_UP_TEXT, "")
+        //         val hangUpAction: NotificationCompat.Action = NotificationCompat.Action.Builder(
+        //             R.drawable.transparent,
+        //             if (TextUtils.isEmpty(textHangup)) this.getString(R.string.text_hang_up) else textHangup,
+        //             getHangupPendingIntent(onGoingNotificationId, data)
+        //         ).build()
+        //         notificationBuilder.addAction(hangUpAction)
+        //     }
+        // }
+        // notificationBuilder.priority = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        //     NotificationManager.IMPORTANCE_LOW
+        // } else {
+        //     Notification.PRIORITY_LOW
+        // }
+        // notificationBuilder.setSound(null)
+        // notificationBuilder.setContentIntent(getAppPendingIntent(onGoingNotificationId, data))
+        // val actionColor = data.getString(CallkitConstants.EXTRA_CALLKIT_ACTION_COLOR, "#4CAF50")
+        // try {
+        //     notificationBuilder.color = Color.parseColor(actionColor)
+        // } catch (_: Exception) {
+        // }
+        // notificationBuilder.setOngoing(true)
+        // val notification = notificationBuilder.build()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             startForeground(
