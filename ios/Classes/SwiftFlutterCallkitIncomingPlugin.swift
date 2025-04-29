@@ -504,12 +504,12 @@ public class SwiftFlutterCallkitIncomingPlugin: NSObject, FlutterPlugin, CXProvi
         let call = Call(uuid: action.callUUID, data: self.data!, isOutGoing: true)
         call.handle = action.handle.value
         configurAudioSession()
-        // call.hasStartedConnectDidChange = { [weak self] in
-        //     self?.sharedProvider?.reportOutgoingCall(with: call.uuid, startedConnectingAt: call.connectData)
-        // }
-        // call.hasConnectDidChange = { [weak self] in
-        //     self?.sharedProvider?.reportOutgoingCall(with: call.uuid, connectedAt: call.connectedData)
-        // }
+        call.hasStartedConnectDidChange = { [weak self] in
+            self?.sharedProvider?.reportOutgoingCall(with: call.uuid, startedConnectingAt: call.connectData)
+        }
+        call.hasConnectDidChange = { [weak self] in
+            self?.sharedProvider?.reportOutgoingCall(with: call.uuid, connectedAt: call.connectedData)
+        }
         self.outgoingCall = call;
         self.callManager.addCall(call)
         self.sendEvent(SwiftFlutterCallkitIncomingPlugin.ACTION_CALL_START, self.data?.toJSON())
@@ -525,9 +525,9 @@ public class SwiftFlutterCallkitIncomingPlugin: NSObject, FlutterPlugin, CXProvi
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1200)) {
             self.configurAudioSession()
         }
-        // call.hasConnectDidChange = { [weak self] in
-        //     self?.sharedProvider?.reportOutgoingCall(with: call.uuid, connectedAt: call.connectedData)
-        // }
+        call.hasConnectDidChange = { [weak self] in
+            self?.sharedProvider?.reportOutgoingCall(with: call.uuid, connectedAt: call.connectedData)
+        }
         self.answerCall = call
         sendEvent(SwiftFlutterCallkitIncomingPlugin.ACTION_CALL_ACCEPT, self.data?.toJSON())
         if let appDelegate = UIApplication.shared.delegate as? CallkitIncomingAppDelegate {
